@@ -25,6 +25,7 @@ static void output_one_line(Print& out, uint8_t const* mem, size_t count) {
 		} else {
 			out.print("   "); // alignment characters
 		}
+		if (c == 7) out.write(' ');
 	}
 	// Now lets output the Ascii values for these.
 	out.print(" : ");
@@ -34,6 +35,7 @@ static void output_one_line(Print& out, uint8_t const* mem, size_t count) {
 		uint8_t ch = *p++;
 		count--;
 		out.write(((ch > 0x1f) && (ch < 0x7f)) ? ch : '.');
+		if (c == 7) out.write(' ');
 	}
 	out.println();
 }
