@@ -52,10 +52,10 @@ void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplic
 			if ((count < 16) || (memcmp(last_line_output, p, 16) != 0)) {
 				// end of run.
 				if (0 != duplicate_line_cached) {
-					if ((p - 16) != last_line_output) {
+					if ((p - 16) != last_line_output && 1 < duplicate_line_cached) {
 						out.print("...\t ");
-						out.print(duplicate_line_cached);
-						out.print(" duplicate lines removed.\n");
+						out.print(duplicate_line_cached-1);
+						out.print(" duplicate line(s) removed.\n");
 					}
 					output_one_line(out, p - 16, output_count);					
 				}
@@ -75,12 +75,11 @@ void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplic
 	}
 	if (0 != duplicate_line_cached) {
 		// last line was a duplicate and 16 bytes long
-		if ((p - 16) != last_line_output) {
+		if ((p - 16) != last_line_output && 1 < duplicate_line_cached) {
 			out.print("...\t ");
-			out.print(duplicate_line_cached);
-			out.print(" duplicate lines removed.\n");
+			out.print(duplicate_line_cached-1);
+			out.print(" duplicate line(s) removed.\n");
 		}
 		output_one_line(out, p - 16, output_count);
-
 	}
 }
