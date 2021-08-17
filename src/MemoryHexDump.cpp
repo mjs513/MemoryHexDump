@@ -41,12 +41,22 @@ static void output_one_line(Print& out, uint8_t const* mem, size_t count) {
 	out.println();
 }
 
-void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplicate_lines )
+void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplicate_lines, const char *szOut )
 {
-	const uint8_t *p = (const uint8_t *)mem;
+	const uint8_t *p;
 	const uint8_t *last_line_output = nullptr;
+	if ( mem < (uint8_t *)32 ) {
+		out.print(" Given addr of ");
+		out.print( (uint32_t)mem );
+		out.print("  *Skipping Addresses < 32 to avoid access violation\n");
+		mem = (void const*)32;
+		p = (const uint8_t *)mem;
+	}
+	else
+		p = (const uint8_t *)mem;
 	uint32_t output_count = 16;
 	uint32_t duplicate_line_cached = 0;
+	if ( NULL != szOut ) out.print( szOut );
 	while (count > 0) {
 		if (remove_duplicate_lines && last_line_output) {
 			if ((count < 16) || (memcmp(last_line_output, p, 16) != 0)) {
