@@ -45,6 +45,7 @@ void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplic
 {
 	const uint8_t *p;
 	const uint8_t *last_line_output = nullptr;
+	if ( NULL != szOut ) out.print( szOut );
 	if ( mem < (uint8_t *)32 ) {
 		out.print(" Given addr of ");
 		out.print( (uint32_t)mem );
@@ -56,7 +57,6 @@ void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplic
 		p = (const uint8_t *)mem;
 	uint32_t output_count = 16;
 	uint32_t duplicate_line_cached = 0;
-	if ( NULL != szOut ) out.print( szOut );
 	while (count > 0) {
 		if (remove_duplicate_lines && last_line_output) {
 			if ((count < 16) || (memcmp(last_line_output, p, 16) != 0)) {
