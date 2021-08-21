@@ -41,10 +41,12 @@ static void output_one_line(Print& out, uint8_t const* mem, size_t count) {
 	out.println();
 }
 
-void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplicate_lines, const char *szTitle )
+void MemoryHexDump(Print& out, void const* mem, size_t count,
+                   bool remove_duplicate_lines, const char *szTitle, uint32_t max_output_lines )
 {
 	const uint8_t *p;
 	const uint8_t *last_line_output = nullptr;
+	uint32_t count_output_lines = 0;
 	if ( NULL != szTitle ) out.print( szTitle );
 	if ( mem < (uint8_t *)32 ) {
 		out.print(" Given addr of ");
@@ -64,10 +66,11 @@ void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplic
 				if (0 != duplicate_line_cached) {
 					if ((p - 16) != last_line_output && 1 < duplicate_line_cached) {
 						out.print("...\t ");
-						out.print(duplicate_line_cached-1);
+						out.print(duplicate_line_cached - 1);
 						out.print(" duplicate line(s) removed.\n");
 					}
-					output_one_line(out, p - 16, output_count);					
+					output_one_line(out, p - 16, output_count);
+					count_output_lines++;
 				}
 				duplicate_line_cached = 0;
 			} else {
@@ -78,18 +81,25 @@ void MemoryHexDump(Print& out, void const* mem, size_t count, bool remove_duplic
 
 		if (0 == duplicate_line_cached) {
 			output_one_line(out, p, output_count);
+			count_output_lines++;
 			last_line_output = p;
 		}
 		count -= output_count;
 		p += output_count;
+
+		if (count_output_lines >= max_output_lines) {
+			out.println("*** Max Count of Output Lines Reached ***");
+			return;
+		}
 	}
 	if (0 != duplicate_line_cached) {
 		// last line was a duplicate and 16 bytes long
 		if ((p - 16) != last_line_output && 1 < duplicate_line_cached) {
 			out.print("...\t ");
-			out.print(duplicate_line_cached-1);
+			out.print(duplicate_line_cached - 1);
 			out.print(" duplicate line(s) removed.\n");
 		}
 		output_one_line(out, p - 16, output_count);
+		count_output_lines++;
 	}
 }
