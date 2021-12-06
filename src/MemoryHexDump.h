@@ -11,6 +11,7 @@
 #include <Arduino.h>
 
 void MemoryHexDump(Print& out, void const* address, size_t count, bool remove_duplicate_lines, 
-	const char *szTitle=NULL, uint32_t max_output_lines=(uint32_t)-1);
+	const char *szTitle=NULL, uint32_t max_output_lines=(uint32_t)-1, 
+	uint32_t starting_display_addr = (uint32_t)-1 );
 
 #endif
