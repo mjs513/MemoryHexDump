@@ -20,12 +20,12 @@ char filename[256] = "2001/stop.wav";
 #define CS_SD  BUILTIN_SDCARD
 #else
 #define CS_SD 10
-#endif
 // SDClasses
 // edit SPI to reflect your configuration (following is for T4.1)
 #define SD_MOSI 11
 #define SD_MISO 12
 #define SD_SCK  13
+#endif
 
 #define SPI_SPEED SD_SCK_MHZ(16)  // adjust to sd card 
 SDClass sd;
