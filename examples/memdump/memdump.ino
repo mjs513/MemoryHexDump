@@ -1,8 +1,6 @@
 /*
   Hex Memory Dumper
 
-  Note: Parts of this memory dumper is specific to the Teensy 4.x boards
-
   This example code is in the public domain.
 */
 

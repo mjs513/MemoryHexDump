@@ -1,6 +1,9 @@
 /*
   SD File Hex Dump
 
+  This example is specific to the Teensy 3.x and 4.x boards
+  as it uses the Teensy version of SD and SDFat.
+  
   This example code is in the public domain.
 */
 
